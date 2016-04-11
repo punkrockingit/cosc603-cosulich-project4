@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>VendingMachineTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">edu.towson.cis.cosc603.project4.vendingmachine (1) (Apr 11, 2016 1:15:08 AM)</a> &gt; <a href="../../index.html" class="el_group">VendingMachine Project 4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.towson.cis.cosc603.project4.vendingmachine</a> &gt; <span class="el_source">VendingMachineTest.java</span></div><h1>VendingMachineTest.java</h1><pre class="source lang-java linenums">package edu.towson.cis.cosc603.project4.vendingmachine;
+
+import static org.junit.Assert.*;
+import java.util.Arrays;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/*
+ * @author William Cosulich
+ * This is the class for testing the vending machine class 
+ */
+<span class="fc" id="L13">public class VendingMachineTest {</span>
+<span class="fc" id="L14">	private static VendingMachine vendingMachine = null;</span>
+<span class="fc" id="L15">	private static VendingMachineItem ItemA = null;</span>
+<span class="fc" id="L16">	private static VendingMachineItem ItemB = null;</span>
+<span class="fc" id="L17">	private static VendingMachineItem ItemC = null;</span>
+<span class="fc" id="L18">	private static VendingMachineItem ItemD = null;</span>
+	private VendingMachineException machineException;
+	
+	/*
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L26">		vendingMachine = new VendingMachine();</span>
+<span class="fc" id="L27">		ItemA = new VendingMachineItem(&quot;Snickers&quot;, 1);</span>
+<span class="fc" id="L28">		ItemB = new VendingMachineItem(&quot;Sun Chips&quot;, 1);</span>
+<span class="fc" id="L29">		ItemC = new VendingMachineItem(&quot;Milky Way&quot;, 1);</span>
+<span class="fc" id="L30">		ItemD = new VendingMachineItem(&quot;Crumb Cake&quot;, 1.5);		</span>
+<span class="fc" id="L31">	}</span>
+
+	/*
+	 *  This tests that the addItem() method to check if the slot is empty
+	 */
+	@Test
+	public void testAddItemForEmptySlot() {
+<span class="fc" id="L38">		 assertNull(vendingMachine.getItem(VendingMachine.B_CODE));</span>
+<span class="fc" id="L39">	}</span>
+	
+	/*
+	 * This tests that the addItem() method has the correct input.
+	 */
+	@Test
+	public void testAddItem() {
+		
+<span class="fc" id="L47">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L48">		assertTrue((Arrays.asList(vendingMachine.itemArray[0]).contains(ItemA)));</span>
+		
+<span class="fc" id="L50">		vendingMachine.addItem(ItemB, &quot;B&quot;);</span>
+<span class="fc" id="L51">		assertTrue((Arrays.asList(vendingMachine.itemArray[1]).contains(ItemB)));</span>
+		
+<span class="fc" id="L53">		vendingMachine.addItem(ItemC, &quot;C&quot;);</span>
+<span class="fc" id="L54">		assertTrue((Arrays.asList(vendingMachine.itemArray[2]).contains(ItemC)));</span>
+
+<span class="fc" id="L56">		vendingMachine.addItem(ItemD, &quot;D&quot;);</span>
+<span class="fc" id="L57">		assertTrue((Arrays.asList(vendingMachine.itemArray[3]).contains(ItemD)));</span>
+
+<span class="fc" id="L59">	}</span>
+	
+	/*
+	 * This tests the addItem() method for cases where cost is not valid 
+	 */
+	@Test(expected = VendingMachineException.class)
+	public void testAddItemInvalidCost() {
+<span class="nc" id="L66">		VendingMachineItem ItemC = new VendingMachineItem(&quot;Sun Chips&quot;, -1.0);</span>
+<span class="nc" id="L67">		vendingMachine.addItem(ItemC, &quot;B&quot;);</span>
+<span class="nc" id="L68">		assertEquals(ItemC, vendingMachine.getItem(&quot;B&quot;));</span>
+<span class="nc" id="L69">	}</span>
+	
+	/*
+	 * This tests the addItem() method for cases for adding cost into an invalid slot
+	 */
+	@Test(expected = VendingMachineException.class)
+	public void testAddItemInvalidSlot() {
+<span class="fc" id="L76">		VendingMachineItem ItemE = new VendingMachineItem(&quot;Cheetos&quot;, 1.0);</span>
+<span class="nc" id="L77">		vendingMachine.addItem(ItemE, &quot;E&quot;);</span>
+<span class="nc" id="L78">	}</span>
+	
+	/*
+	 * This tests the addItem() method for the case where the add item is already occupied slot.
+	 */
+	@Test (expected = VendingMachineException.class)
+	public void testAddItemOccupied() {
+<span class="fc" id="L85">		ItemA = new VendingMachineItem(&quot;Snickers&quot;, 1);</span>
+<span class="fc" id="L86">		vendingMachine.addItem(ItemA,VendingMachine.B_CODE);</span>
+<span class="fc" id="L87">		ItemB = new VendingMachineItem(&quot;MilkyWay&quot;, 1);</span>
+<span class="nc" id="L88">		vendingMachine.addItem(ItemB,VendingMachine.B_CODE);</span>
+<span class="nc" id="L89">	}</span>
+	
+	/*
+	 * This tests the removeItem() method with good input.
+	 */	
+	@Test
+	public void testRemoveItem() {
+<span class="fc" id="L96">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L97">		assertSame(ItemA, vendingMachine.removeItem(&quot;A&quot;));</span>
+<span class="fc" id="L98">	}</span>
+	
+	/*
+	 * This tests the removeItem() method with bad input.
+	 */	
+	@Test
+	public void testRemoveItemReturnValue() {
+<span class="fc" id="L105">		VendingMachineItem ItemA = new VendingMachineItem(&quot;Nuts&quot;, 1.0);</span>
+<span class="fc" id="L106">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L107">		VendingMachineItem removedItem = vendingMachine.removeItem(&quot;A&quot;);</span>
+<span class="fc" id="L108">		assertEquals(ItemA, removedItem);</span>
+<span class="fc" id="L109">	}</span>
+
+	/*
+	 * This tests the removeItem() method for the case to remove the item from invalid slot. 
+	 */	
+	@Test(expected = VendingMachineException.class)
+	public void testRemoveItemInvalidSlot() {
+<span class="nc" id="L116">		vendingMachine.removeItem(&quot;E&quot;);</span>
+<span class="nc" id="L117">	}</span>
+	
+	/*
+	 * This tests the removeItem() method for the case to remove the item from empty slot. 
+	 */	
+	@Test (expected = VendingMachineException.class)
+	public void testRemoveItemEmptySlot() {
+<span class="nc" id="L124">		vendingMachine.removeItem(&quot;A&quot;);</span>
+<span class="nc" id="L125">	}</span>
+
+	
+	/*
+	 * This tests the insertMoney() method with amount &gt;= 0
+	 */
+	@Test
+	public void testInsertMoney() {
+<span class="fc" id="L133">		vendingMachine.insertMoney(0);</span>
+<span class="fc" id="L134">		assertEquals(0, vendingMachine.getBalance(), 0.0);</span>
+<span class="fc" id="L135">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L136">		assertEquals(1.5, vendingMachine.getBalance(), 0.0);</span>
+<span class="fc" id="L137">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L138">		assertEquals(3.0, vendingMachine.getBalance(), 0.0);</span>
+<span class="fc" id="L139">	}</span>
+	
+	/*
+	 * This tests the insertMoney() method with amount = 0
+	 */
+	@Test
+	public void testInsertMoneyIsZero() {
+<span class="fc" id="L146">		vendingMachine.insertMoney(0);</span>
+<span class="fc" id="L147">		assertEquals(0,vendingMachine.getBalance(), 0.001);</span>
+<span class="fc" id="L148">	}</span>
+	
+	/*
+	 * This tests the insertMoney() method with amount &lt; 0
+	 */
+	@Test (expected = VendingMachineException.class)
+	public void testInsertMoneyInvalidAmount() throws Exception{
+<span class="nc" id="L155">		vendingMachine.insertMoney(-1.0);</span>
+<span class="nc" id="L156">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method with to make sure that the balance is correct.
+	 */
+	@Test
+	public void testMakePurchase() {
+<span class="fc" id="L163">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L164">		vendingMachine.insertMoney(1);</span>
+<span class="fc" id="L165">		vendingMachine.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L166">		assertEquals(0, vendingMachine.getBalance(), 0.001);</span>
+<span class="fc" id="L167">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code of empty slot
+	 */
+	@Test
+	public void testMakePurchaseEmptySlot() {
+<span class="fc" id="L174">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L175">		assertEquals(false,vendingMachine.makePurchase(&quot;B&quot;));</span>
+<span class="fc" id="L176">	}</span>
+	
+	/*
+	 * Uses the makePurchase() method to test that the item was removed after a purchase
+	 */
+	@Test
+	public void testMakePurchaseItemRemoved() {
+<span class="fc" id="L183">		vendingMachine.insertMoney(1);</span>
+<span class="fc" id="L184">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L185">		vendingMachine.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L186">		assertNull(vendingMachine.getItem(&quot;A&quot;));	</span>
+<span class="fc" id="L187">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code for proper balance.
+	 */
+	@Test
+	public void testMakePurchaseItemEnoughMoney() {
+<span class="fc" id="L194">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L195">		vendingMachine.insertMoney(1);</span>
+<span class="fc" id="L196">		boolean enoughMoney = vendingMachine.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L197">		assertTrue(enoughMoney);</span>
+<span class="fc" id="L198">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code for insufficient balance.
+	 */
+	@Test
+	public void testMakePurchaseInSufficientBalance() {
+<span class="fc" id="L205">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L206">		vendingMachine.insertMoney(.75);</span>
+<span class="fc" id="L207">		assertEquals(false,vendingMachine.makePurchase(&quot;A&quot;));</span>
+<span class="fc" id="L208">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code for bad selection.
+	 */
+	@Test
+	public void testMakePurchaseBadSelection() {
+<span class="fc" id="L215">		vendingMachine.addItem(ItemC, &quot;C&quot;);</span>
+<span class="fc" id="L216">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L217">		assertEquals(false,vendingMachine.makePurchase(&quot;A&quot;));</span>
+<span class="fc" id="L218">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code for same item.
+	 */
+	@Test
+	public void testMakePurchaseSameItem() {
+<span class="fc" id="L225">		vendingMachine.addItem(ItemA, &quot;A&quot;);</span>
+<span class="fc" id="L226">		vendingMachine.insertMoney(1);</span>
+<span class="fc" id="L227">		vendingMachine.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L228">		assertEquals(false,vendingMachine.makePurchase(&quot;A&quot;));</span>
+<span class="fc" id="L229">	}</span>
+	
+	/*
+	 * This tests the makePurchase() method for code for inval1d Slot
+	 */
+	@Test(expected = VendingMachineException.class)
+	public final void testMakePurchaseInvalidSelection() {
+<span class="nc" id="L236">		vendingMachine.makePurchase(&quot;E&quot;);</span>
+<span class="nc" id="L237">	}</span>
+	/*
+	 * This tests the getBalance() method
+	 */
+	@Test
+	public void testGetBalance(){
+<span class="fc" id="L243">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L244">		assertEquals(1.5, vendingMachine.getBalance(),0.0);</span>
+<span class="fc" id="L245">	}</span>
+	
+	/*
+	 * This tests the getBalance() method with bad input 
+	 */  
+	@Test
+	public void testGetBalanceBadInput(){
+<span class="fc" id="L252">		vendingMachine.insertMoney(1.5);</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">		assertFalse(vendingMachine.getBalance() == 3.0);</span>
+<span class="fc" id="L254">	}</span>
+	 
+	
+	/*
+	 * This tests the returnChange() method 
+	 */
+	@Test
+	public void testReturnChange() {
+<span class="fc" id="L262">		vendingMachine.addItem(ItemD, &quot;D&quot;);</span>
+<span class="fc" id="L263">		vendingMachine.insertMoney(1.5);</span>
+<span class="fc" id="L264">		vendingMachine.makePurchase(&quot;D&quot;);</span>
+<span class="fc" id="L265">		assertEquals(0.0, vendingMachine.returnChange(),0.0);</span>
+<span class="fc" id="L266">	}</span>
+	
+	/*
+	 * This tests the returnChange() method when the balance is zeroed out
+	 */
+	@Test
+	public void testReturnChangeBalanceZero() {
+<span class="fc" id="L273">		vendingMachine.insertMoney(1);		</span>
+<span class="fc" id="L274">		vendingMachine.returnChange();</span>
+<span class="fc" id="L275">		assertEquals(0,vendingMachine.getBalance(), 0.001);</span>
+<span class="fc" id="L276">	}</span>
+	
+	/*
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+<span class="fc" id="L283">		vendingMachine = null;</span>
+<span class="fc" id="L284">		ItemA = null;</span>
+<span class="fc" id="L285">		ItemB = null;</span>
+<span class="fc" id="L286">		ItemC = null;</span>
+<span class="fc" id="L287">		ItemD = null;</span>
+<span class="fc" id="L288">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>edu.towson.cis.cosc603.project4.vendingmachine (1) (Apr 11, 2016 1:15:08 AM)</div></body></html>

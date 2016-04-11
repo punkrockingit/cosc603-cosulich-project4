@@ -1,0 +1,3 @@
+
+Bugs: 
+Need to change “private VendingMachineItem[] itemArray; “ to “protected VendingMachineItem[] itemArray;” in order to use the array within the VendingMachine object instance as it was needed in the TestAddItem test case.

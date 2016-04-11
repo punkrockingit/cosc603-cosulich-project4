@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>VendingMachineItemTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">edu.towson.cis.cosc603.project4.vendingmachine (1) (Apr 11, 2016 1:15:08 AM)</a> &gt; <a href="../../index.html" class="el_group">VendingMachine Project 4</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.towson.cis.cosc603.project4.vendingmachine</a> &gt; <span class="el_source">VendingMachineItemTest.java</span></div><h1>VendingMachineItemTest.java</h1><pre class="source lang-java linenums">package edu.towson.cis.cosc603.project4.vendingmachine;
+
+import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+
+import org.junit.Test;
+/*
+ * @author William Cosulich
+ * This is the class for testing the vending machine items class 
+ */
+<span class="fc" id="L12">public class VendingMachineItemTest {</span>
+	
+	VendingMachineItem Item;
+	VendingMachineException machineException;
+
+	/*
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		
+<span class="fc" id="L23">		Item = new VendingMachineItem(&quot;Snickers&quot;, 1.00);</span>
+		
+<span class="fc" id="L25">	}</span>
+
+	/*
+	 * This test the constructor of VendingMachineItem
+	 */
+	@Test
+	public void testVendingMachineItem() {
+		
+<span class="fc" id="L33">			assertTrue((Item instanceof VendingMachineItem));</span>
+		
+<span class="fc" id="L35">	}</span>
+    @Test
+    /**
+     * Test custom constructor 
+     */
+    public void testConstructor() {
+<span class="fc" id="L41">    	assertNotNull(Item);</span>
+<span class="fc" id="L42">    }</span>
+	
+	@Test
+	public void testVendItemConstructPrice() {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">		assertTrue(&quot;Value of Item should be greater than 0&quot;, Item.getPrice() &gt; 0);</span>
+<span class="fc" id="L47">	}</span>
+	
+	/*
+	 * This tests the VendingMachineItem is a negative.
+	 */
+	@Test(expected = VendingMachineException.class)
+    public void testConstructorNegativeValues(){
+<span class="nc" id="L54">    	VendingMachineItem ItemN = new VendingMachineItem(&quot;Nuts&quot;, -1.0);</span>
+<span class="nc" id="L55">    }</span>
+    
+	/*
+	 * This tests the getName() method 
+	 */
+	@Test
+	public void testGetName() {
+<span class="fc" id="L62">		assertEquals(&quot;Snickers&quot;, Item.getName());</span>
+<span class="fc" id="L63">	}	</span>
+	
+	/*
+	 * This tests the getPrice() method 
+	 */
+	@Test
+	public void testGetPrice() {
+<span class="fc" id="L70">		assertEquals(1, Item.getPrice(),0.0);</span>
+<span class="fc" id="L71">	}</span>
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		
+<span class="fc" id="L79">		Item = null;</span>
+	
+<span class="fc" id="L81">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>edu.towson.cis.cosc603.project4.vendingmachine (1) (Apr 11, 2016 1:15:08 AM)</div></body></html>
